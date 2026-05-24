@@ -19,74 +19,43 @@
         <Parameter>
             <Name>Expander</Name>
             <TextId>1001</TextId>
-            <Text>Attributauswahl</Text>
+            <Text>Eval file path</Text>
             <ValueType>Expander</ValueType>
             <Value>False</Value>
             <Parameter>
-                <Name>Row12</Name>
-                <TextId>1002</TextId>
-                <Text>Schlüsselattribut</Text>
+                <Name>Row1</Name>
+                <TextId>1009</TextId>
+                <Text>Path selection</Text>
                 <ValueType>Row</ValueType>
                 <Parameter>
-                    <Name>key_attrib</Name>
-                    <TextId>1003</TextId>
-                    <Text>festlegen</Text>
-                    <Value>508</Value>
-                    <ValueType>Integer</ValueType>
-                    <ValueDialog>AttributeSelection</ValueDialog>
-                    <Visible>True</Visible>
-                </Parameter>
-            </Parameter>
-            <Parameter>
-                <Name>Row12</Name>
-                <TextId>1004</TextId>
-                <Text>Wertattribut</Text>
-                <ValueType>Row</ValueType>
-                <Parameter>
-                    <Name>amount_attrib</Name>
-                    <TextId>1003</TextId>
-                    <Text>festlegen</Text>
-                    <Value>226</Value>
-                    <ValueType>Integer</ValueType>
-                    <ValueDialog>AttributeSelection</ValueDialog>
-                    <Visible>True</Visible>
+                    <Name>eval_file_path</Name>
+                    <TextId>1010</TextId>
+                    <Text>select</Text>
+                    <Value></Value>
+                    <ValueType>String</ValueType>
+                    <ValueDialog>OpenFileDialog</ValueDialog>
+                    <FileFilter>Text file(*.txt)|*.txt|</FileFilter>
+                    <FileExtension>txt</FileExtension>
+                    <DefaultDirectories>std|prj</DefaultDirectories>
                 </Parameter>
             </Parameter>
         </Parameter>
-<!-- Object selection -->
+<!-- Evaluation start -->
         <Parameter>
             <Name>Expander</Name>
             <TextId>1006</TextId>
-            <Text>Objektauswahl</Text>
+            <Text>Evaluation</Text>
             <ValueType>Expander</ValueType>
             <Value>False</Value>
             <Parameter>
-                <Name>Row3</Name>
-                <TextId>1007</TextId>
-                <Text>Objekte</Text>
-                <ValueType>Row</ValueType>
-                <Parameter>
-                    <Name>Button2</Name>
-                    <TextId>1005</TextId>
-                    <Text>auswählen</Text>
-                    <EventId>2000</EventId>
-                    <ValueType>Button</ValueType>
-                </Parameter>
-            </Parameter>
-           <Parameter>
-                <Name>Sep</Name>
-                <ValueType>Separator</ValueType>
-                <Value>True</Value>
-            </Parameter>
-            <Parameter>
-                <Name>Row1</Name>
+                <Name>Row109</Name>
                 <TextId>1006</TextId>
                 <Text>Diagram</Text>
                 <ValueType>Row</ValueType>
                 <Parameter>
-                    <Name>show_diagram</Name>
+                    <Name>start_eval</Name>
                     <TextId>1007</TextId>
-                    <Text>anzeigen</Text>
+                    <Text>start</Text>
                     <EventId>1000</EventId>
                     <ValueType>Button</ValueType>
                 </Parameter>
