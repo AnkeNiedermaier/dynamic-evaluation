@@ -22,6 +22,7 @@ import NemAll_Python_IFW_ElementAdapter as AllplanElementAdapter
 import NemAll_Python_Utility as AllplanUtil
 import numpy
 import openpyxl
+import PathFunctions
 
 from BuildingElement import BuildingElement
 from ControlPropertiesUtil import ControlPropertiesUtil
@@ -162,7 +163,12 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         self.script_object_interactor = None
 
 
+    def create_path_file(self):
+        logfile_string_path = self.build_ele.eval_file_path.value
+        logfile_path = f"{logfile_string_path}"
 
+
+        PathFunctions.save_start_file(logfile_path)
 
 
     def execute(self) -> CreateElementResult:
