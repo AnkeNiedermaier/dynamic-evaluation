@@ -5,16 +5,32 @@ set /p action="Do you want to install (i) or remove (R) the links? "
 set /p targetPath="Please enter the Path to Usr or Std (with trailing \): "
 
 
-if exist "%targetPath%Library\Allplan GmbH\DynamicEval.pyp" (
-    del "%targetPath%Library\Allplan GmbH\DynamicEval.pyp"
+if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" (
+    del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp"
 )
 
-if exist "%targetPath%Library\Allplan GmbH\DynamicEval.svg" (
-    del "%targetPath%Library\Allplan GmbH\DynamicEval.svg"
+if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg" (
+    del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg"
 )
 
-if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEval.py" (
-    del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEval.py"
+if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py" (
+    del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py"
+)
+
+if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py" (
+    del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py"
+)
+
+if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py" (
+    del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py"
+)
+
+if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation" (
+    rmdir "%targetPath%Library\Allplan GmbH\DynamicEvaluation" /s /q
+)
+
+if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation" (
+    rmdir "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation" /s /q
 )
 
 
@@ -47,11 +63,20 @@ if not exist "%targetPath%\PythonPartsScripts\allplan_gmbh" (
     mkdir "%targetPath%\PythonPartsScripts\allplan_gmbh"
 )
 
-mklink "%targetPath%Library\Allplan GmbH\DynamicEval.svg" "%scriptDir%Library\Allplan GmbH\DynamicEval.svg"
-mklink "%targetPath%Library\Allplan GmbH\DynamicEval.pyp" "%scriptDir%Library\Allplan GmbH\DynamicEval.pyp"
+if not exist "%targetPath%\Library\Allplan GmbH\DynamicEvaluation" (
+    mkdir "%targetPath%\Library\Allplan GmbH\DynamicEvaluation"
+)
 
+if not exist "%targetPath%\PythonPartsScripts\allplan_gmbh\DynamicEvaluation" (
+    mkdir "%targetPath%\PythonPartsScripts\allplan_gmbh\DynamicEvaluation"
+)
 
-mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEval.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEval.py"
+mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg"
+mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp"
+
+mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py"
+mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py"
+mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py"
 
 
 echo "PythonPart installed in Allplan. You'll find it in Library -> Office or Private -> Plugin Hub."

@@ -135,7 +135,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
             #self.create_diagram()
             #self.create_value_dict()
             #self.show_diagram()
-
+            self.create_path_file()
             eval_script = r"C:\Daten\Git\standalone-interface\gui_classes\GuiWindow.py"
 
             # Use Python 3.13 with PySide6
@@ -164,9 +164,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
 
 
     def create_path_file(self):
-        logfile_string_path = self.build_ele.eval_file_path.value
-        logfile_path = f"{logfile_string_path}"
-
+        logfile_path = self.build_ele.eval_file_path.value
 
         PathFunctions.save_start_file(logfile_path)
 
