@@ -22,7 +22,7 @@ def create_folder() -> Path:
 
 #----------------- function to build and save the eval_start file
 
-def save_start_file(logfile_path:   str) -> Path:
+def save_start_file(logfile_path:   str | Path) -> Path:
     """Create a start file for the evaluation
 
     Args:
@@ -33,8 +33,19 @@ def save_start_file(logfile_path:   str) -> Path:
         Path: The path to the created start file
     """
     eval_start_file = create_folder() / "start_eval.txt"
-    eval_start_file.write_text(logfile_path, encoding="utf-8")
+    eval_start_file.write_text(str(logfile_path), encoding="utf-8")
     return eval_start_file
+
+#----------------- function to check existence of eval_start file
+
+def check_for_file() -> bool:
+    """Check if the eval_start file exists
+
+    Returns:
+        bool: True if the eval_start file exists, False otherwise
+    """
+    eval_start_file = create_folder() / "start_eval.txt"
+    return eval_start_file.is_file()
 
 #----------------- function to read the eval_start file
 
@@ -52,5 +63,6 @@ def read_start_file() -> Path:
         raise FileNotFoundError(f"Start file not found at {eval_start_file}.")
 
     logfile_path = eval_start_file.read_text(encoding="utf-8").strip()
+    logfile_path = Path(logfile_path)
 
     return logfile_path

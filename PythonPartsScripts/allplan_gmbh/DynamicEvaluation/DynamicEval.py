@@ -22,7 +22,6 @@ import NemAll_Python_IFW_ElementAdapter as AllplanElementAdapter
 import NemAll_Python_Utility as AllplanUtil
 import numpy
 import openpyxl
-import PathFunctions
 
 from BuildingElement import BuildingElement
 from ControlPropertiesUtil import ControlPropertiesUtil
@@ -31,6 +30,8 @@ from DocumentManager import DocumentManager
 from matplotlib import ticker
 from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractor, MultiElementSelectInteractorResult
 from StringTableService import StringTableService
+
+from . import PathFunctions
 
 
 def check_allplan_version(build_ele:    BuildingElement,

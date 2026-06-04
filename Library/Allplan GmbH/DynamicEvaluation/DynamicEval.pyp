@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://pythonparts.allplan.com/2026/schemas/PythonPart.xsd">
     <Script>
-        <Name>allplan_gmbh\DynamicEval.py</Name>
+        <Name>allplan_gmbh\DynamicEvaluation\DynamicEval.py</Name>
         <Title>Dynamic Evaluation</Title>
         <Version>1.0</Version>
         <Interactor>False</Interactor>
@@ -37,7 +37,7 @@
                                 <Text>select</Text>
                                 <Value></Value>
                                 <ValueType>String</ValueType>
-                                <ValueDialog>OpenFileDialog</ValueDialog>
+                                <ValueDialog>SaveFileDialog</ValueDialog>
                                 <FileFilter>Text file(*.txt)|*.txt|</FileFilter>
                                 <FileExtension>txt</FileExtension>
                                 <DefaultDirectories>std|prj</DefaultDirectories>
