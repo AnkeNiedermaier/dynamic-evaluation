@@ -5,12 +5,15 @@ import datetime
 import os
 
 from getpass import getuser
+from pathlib import Path
 from typing import Any
 
 import NemAll_Python_AllplanSettings as AllplanSettings
 import NemAll_Python_IFW_ElementAdapter as AllplanEleAdapter
 
 from NemAll_Python_BaseElements import AttributeService, ElementsSelectService, eAttibuteReadState
+
+from . import PathFunctions
 
 """ Constants for logging"""
 
@@ -83,9 +86,7 @@ def read_all_visible_objects(_doc: AllplanEleAdapter.DocumentAdapter):
 
             elem_attrib_list.append(elem_attrib_dict)
 
-    file_path = "C:\\Daten\\Allplan\\Allplan 2026\\Std"
-    file_name = "visible_elements_log.txt"
-    with open(os.path.join(file_path, file_name)
-              , "w", encoding="utf-8") as log_file:
+    file_name = PathFunctions.read_start_file()
+    with open(file_name, "w", encoding="utf-8") as log_file:
         for elem_attrib_dict in elem_attrib_list:
             log_file.write(str(elem_attrib_dict) + "\n")

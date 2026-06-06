@@ -31,7 +31,7 @@ from matplotlib import ticker
 from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractor, MultiElementSelectInteractorResult
 from StringTableService import StringTableService
 
-from . import PathFunctions
+from . import AllplanEventHooks, PathFunctions
 
 
 def check_allplan_version(build_ele:    BuildingElement,
@@ -168,6 +168,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         logfile_path = self.build_ele.eval_file_path.value
 
         PathFunctions.save_start_file(logfile_path)
+        AllplanEventHooks.read_all_visible_objects(self.doc)
 
 
     def execute(self) -> CreateElementResult:

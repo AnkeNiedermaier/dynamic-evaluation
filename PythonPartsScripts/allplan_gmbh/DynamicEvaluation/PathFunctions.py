@@ -9,14 +9,23 @@ from pathlib import Path
 #----------------- GENERAL FUNCTIONS
 #----------------- function to build the folder
 
+#----------------- function to get the DynamicEvaluation folder path
+
+def get_folder_path() -> Path:
+    """Get the path to the DynamicEvaluation folder
+
+    Returns:
+        Path: The path to the DynamicEvaluation folder
+    """
+    return Path.home() / "DynamicEvaluation"
+
 def create_folder() -> Path:
     """Create a folder in the user directory
 
     Returns:
         Path: The path to the created folder
     """
-    user_dir = Path.home()
-    folder_path = user_dir / "DynamicEvaluation"
+    folder_path = get_folder_path()
     folder_path.mkdir(parents=True, exist_ok=True)
     return folder_path
 
@@ -44,7 +53,7 @@ def check_for_file() -> bool:
     Returns:
         bool: True if the eval_start file exists, False otherwise
     """
-    eval_start_file = create_folder() / "start_eval.txt"
+    eval_start_file = get_folder_path() / "start_eval.txt"
     return eval_start_file.is_file()
 
 #----------------- function to read the eval_start file
@@ -58,11 +67,36 @@ def read_start_file() -> Path:
     Raises:
         FileNotFoundError: if the start file is not found
     """
-    eval_start_file = create_folder() / "start_eval.txt"
-    if not eval_start_file.exists():
+    eval_start_file = get_folder_path() / "start_eval.txt"
+    if not eval_start_file.is_file():
         raise FileNotFoundError(f"Start file not found at {eval_start_file}.")
 
     logfile_path = eval_start_file.read_text(encoding="utf-8").strip()
     logfile_path = Path(logfile_path)
 
     return logfile_path
+
+#----------------- function to delete the eval folder and its content
+
+def delete_folder() -> bool:
+    """Delete the DynamicEvaluation folder and its content
+
+    Returns:
+        bool: True if the folder was deleted, False otherwise
+    """
+    folder_path = get_folder_path()
+    eval_start_file = folder_path / "start_eval.txt"
+
+    if eval_start_file.is_file():
+        eval_start_file.unlink()
+
+    if folder_path.exists() and folder_path.is_dir():
+        try:
+            folder_path.rmdir()
+            return True
+        except OSError:
+            # The folder is not empty, so we cannot delete it
+            return False
+
+    return False
+
