@@ -25,6 +25,10 @@ if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunc
     del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py"
 )
 
+if exist "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\AllplanEventHooks.py" (
+    del "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\AllplanEventHooks.py"
+)
+
 if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation" (
     rmdir "%targetPath%Library\Allplan GmbH\DynamicEvaluation" /s /q
 )
@@ -77,7 +81,7 @@ mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" "%sc
 mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\__init__.py"
 mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\DynamicEval.py"
 mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\PathFunctions.py"
-
+mklink "%targetPath%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\AllplanEventHooks.py" "%scriptDir%PythonPartsScripts\allplan_gmbh\DynamicEvaluation\AllplanEventHooks.py"
 
 echo "PythonPart installed in Allplan. You'll find it in Library -> Office or Private -> Plugin Hub."
 echo "Press any key to continue"
