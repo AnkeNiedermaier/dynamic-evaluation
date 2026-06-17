@@ -1,33 +1,20 @@
 """ Script for Diagram Window
 """
 
-import csv
-import math
+
 import os
 import subprocess
 import sys
-import textwrap
-import tkinter as tk
-
-from tkinter import filedialog
 
 import BaseScriptObject as ScriptObject
-import matplotlib
-import matplotlib.pyplot as MatPlt
 import NemAll_Python_AllplanSettings as AllplanSettings
-import NemAll_Python_BaseElements as AllplanBaseElements
-import NemAll_Python_BasisElements as AllplanBasisElements
-import NemAll_Python_Geometry as AllplanGeo
 import NemAll_Python_IFW_ElementAdapter as AllplanElementAdapter
 import NemAll_Python_Utility as AllplanUtil
-import numpy
-import openpyxl
 
 from BuildingElement import BuildingElement
 from ControlPropertiesUtil import ControlPropertiesUtil
 from CreateElementResult import CreateElementResult
 from DocumentManager import DocumentManager
-from matplotlib import ticker
 from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractor, MultiElementSelectInteractorResult
 from StringTableService import StringTableService
 
@@ -70,7 +57,7 @@ def create_script_object(build_ele         : BuildingElement,
 
 class DiagramCreator (ScriptObject.BaseScriptObject):
 
-    """ Class to deal with the SOM Attribute requirements in Allplan
+    """ Class for the starting of the dinamic evaluation
 
         Args:
             build_ele: the building element
@@ -110,7 +97,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
 
         """
 
-
+        del (name, value)
         return True
 
 
@@ -133,9 +120,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
 
 
         if event_id == 1000:
-            #self.create_diagram()
-            #self.create_value_dict()
-            #self.show_diagram()
+
             self.create_path_file()
             eval_script = r"C:\Daten\Git\standalone-interface\gui_classes\GuiWindow.py"
 
@@ -148,15 +133,10 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
             )
             print("GUI started.")
 
-
-
-
         else:
             print("unknown event id ", event_id)
 
         return True
-
-
 
 
     def start_next_input(self):
@@ -164,11 +144,22 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         self.script_object_interactor = None
 
 
-    def create_path_file(self):
+    def create_path_file(self) -> bool:
+
+        """ Function to save the selected folder path
+            of the log file for the dynamic evaluation in a text file
+            to access it in the event hooks for the logging process
+
+        Returns:
+            text file with the path for the log file in the Users folder
+        """
+
         logfile_path = self.build_ele.eval_file_path.value
 
         PathFunctions.save_start_file(logfile_path)
         AllplanEventHooks.read_all_visible_objects(self.doc)
+
+        return True
 
 
     def execute(self) -> CreateElementResult:
