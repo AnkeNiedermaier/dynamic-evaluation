@@ -18,7 +18,8 @@ from DocumentManager import DocumentManager
 from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractor, MultiElementSelectInteractorResult
 from StringTableService import StringTableService
 
-from . import AllplanEventHooks, PathFunctions
+from . import AllplanEventHooks
+from .gui_classes.PathFunctions import PathFunctions
 
 
 def check_allplan_version(build_ele:    BuildingElement,
@@ -120,17 +121,23 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
 
 
         if event_id == 1000:
-
             self.create_path_file()
-            eval_script = r"C:\Daten\Git\standalone-interface\gui_classes\GuiWindow.py"
 
-            # Use Python 3.13 with PySide6
-            python_exe = r"C:\Users\aniedermaier\AppData\Local\Programs\Python\Python313\pythonw.exe"
+            dyn_eval_path = os.path.join(AllplanSettings.AllplanPaths.GetStdPath(),
+                                        "PythonPartsScripts", "allplan_gmbh", "DynamicEvaluation", "gui_classes", "GUIWindow.py")
+            #dyn_eval_path = r"C:\Daten\Git\standalone-interface\gui_classes\GuiWindow.py"
 
-            subprocess.Popen(
-                [python_exe, eval_script],
-                cwd=os.path.dirname(eval_script),
-            )
+            print(f"{dyn_eval_path} is the path to the GUIWindow.py file")
+
+            python = f"{AllplanSettings.AllplanPaths.GetPrgPath()}\\Python\\python.exe"
+
+            startupinfo              = subprocess.STARTUPINFO()
+            startupinfo.dwFlags     |= subprocess.STARTF_USESHOWWINDOW
+            startupinfo.wShowWindow  = subprocess.SW_HIDE
+
+            subprocess.Popen(f"{python} \"{dyn_eval_path}\" {sys.path}",    # pylint: disable=consider-using-with
+                                           creationflags=subprocess.CREATE_NO_WINDOW)
+
             print("GUI started.")
 
         else:

@@ -53,3 +53,14 @@ relevant_object_list = ["Volume3D_TypeUUID", "Cylinder3D_TypeUUID", "Sphere3D_Ty
                         , "SkeletonGrid_TypeUUID", "SkeletonColumn_TypeUUID", "SkeletonBeam_TypeUUID"
                         , "SkeletonBrace_TypeUUID", "SkeletonPurlin_TypeUUID", "SkeletonPortalFrame_TypeUUID"
                         , "SkeletonSolidElementSystem_TypeUUID"]
+
+
+attrib_dict = {223: ["Volume", "Volumen"], 82:["VOB_Volume", "VOB_Volumen"], 226:["Net volume", "Nettovolumen"]
+               ,229:["Area", "Fläche"], 293:["Floor_surface", "Bodenfläche"], 224:["Base_area", "Grundfläche"]
+               , 295:["Vertical_surface", "Seitenfläche"], 81:["VOB_Area", "VOB_Fläche"]
+               , 294:["Ceiling_surface", "Deckenfläche"], 309:["Net floor surface", "Bodenfläche Netto"]
+               , 722:["Surface", "Oberfläche"]
+               , 220:["Length", "Länge"], 222:["Height", "Höhe"], 80:["VOB_Length", "VOB_Länge"]
+               , 198:["Absolute_length", "Länge_absolut"], 204:["Absolute_height", "Höhe_absolut"]
+               , 1105:["Clear_height", "Lichte_Höhe"]
+               , 230:["Factor", "Faktor"]}

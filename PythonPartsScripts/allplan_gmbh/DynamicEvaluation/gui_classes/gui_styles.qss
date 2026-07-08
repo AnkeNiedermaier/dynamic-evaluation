@@ -1,0 +1,261 @@
+
+/* title bar main layout */
+QWidget#title_bar {
+    background-color: rgb(0, 102, 204);
+    border-bottom: 2px solid rgb(0, 102, 204);
+}
+
+/* title bar text and labels */
+QLabel#title_label {
+    color: rgb(255, 255, 255);
+    font-size: 18px;
+    font-weight: bold;
+    font-family: "Segoe UI";
+    background: transparent;
+}
+
+QLabel {
+    font-size: 15px;
+    color: rgb(1, 47, 101);
+    font-family: "Segoe UI";
+}
+
+/* menu bar main layout */
+QMenuBar#main_menu {
+    background-color: rgb(219, 228, 238);
+    color: rgb(45, 45, 45);
+    border: 1px solid rgb(219, 228, 238);
+    border-radius: 1px;
+    font-size: 13px;
+    font-family: "Segoe UI";
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+
+
+QMenu {
+    background-color: rgb(219, 228, 238);
+    color: rgb(45, 45, 45);
+    border: 1px solid rgb(219, 228, 238);
+    border-radius: 0px;
+    font-size: 12px;
+    font-family: "Segoe UI";
+    padding-top: 8px;
+    padding-bottom: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
+QMenu::item {
+    background-color: rgb(219, 228, 238);
+    color: rgb(45, 45, 45);
+    border: 1px solid rgb(219, 228, 238);
+    border-radius: 0px;
+    font-size: 12px;
+    font-family: "Segoe UI";
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+/* toolbar main layout */
+QWidget#canvas_toolbar {
+    background-color: rgb(219, 228, 238);
+    color: rgb(65, 101, 142);
+    border: 2px solid rgb(65, 101, 150);
+    border-radius: 1px;
+}
+
+/* toolbar labels */
+QWidget#canvas_toolbar QLabel {
+    font-size: 15px;
+    color: rgb(1, 47, 101);
+    font-family: "Segoe UI";
+    font-weight: bold;
+}
+
+/* toolbar input or edit field */
+QLineEdit {
+    background-color: rgb(178, 200, 223);
+    color: rgb(65, 101, 142);
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 2px;
+    padding: 5px 5px;
+}
+
+/* toolbar combobox main layout */
+QComboBox {
+    background-color: rgb(178, 200, 223);
+    color: rgb(65, 101, 142);
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 2px;
+    padding: 5px 5px;
+}
+
+/* toolbar combobox entry field */
+QComboBox::drop-down {
+subcontrol-origin: padding;
+subcontrol-position: top right;
+width: 24px;
+border-left: 1px solid rgb(45, 81, 130);
+background-color: rgb(160, 186, 214);
+border-top-right-radius: 2px;
+border-bottom-right-radius: 2px;
+}
+
+/* toolbar combobox arrow */
+QComboBox::down-arrow {
+image: url(gui_classes/icons/arrow_down.png);
+width: 12px;
+height: 12px;
+}
+
+/* toolbar combobox list */
+QComboBox QAbstractItemView {
+    background-color: rgb(255, 255, 255);
+    color: rgb(25, 55, 95);
+    border: 1px solid rgb(45, 81, 130);
+    outline: 0px;
+}
+
+/* toolbar checkbox widget*/
+QCheckBox {
+    background-color: transparent;
+    border: none;
+    margin: 0px 0px;
+    padding: 0px 0px;
+    spacing: 0px 0px;
+}
+
+/* toolbar checkbox*/
+QCheckBox::indicator {
+    background-color: rgb(160, 186, 214);
+    border: 1px solid rgb(45, 81, 130);
+    border-radius: 2px;
+    width: 26px;
+    height: 26px;
+}
+
+QCheckBox::indicator:checked {
+    background-color: rgb(160, 186, 214);
+    image: url(gui_classes/icons/checkbox_cross.png);
+}
+
+/* status bar main layout */
+QStatusBar#status_bar {
+    background-color: rgb(0, 102, 204);
+    border-bottom: 2px solid rgb(0, 102, 204);
+}
+
+QComboBox QAbstractItemView::item {
+    min-height: 24px;
+    padding: 4px 8px;
+}
+
+QComboBox QAbstractItemView::item:hover {
+    background-color: rgb(190, 210, 232);
+    color: rgb(25, 55, 95);
+}
+
+QComboBox QAbstractItemView::item:selected {
+    background-color: rgb(81, 116, 165);
+    color: rgb(255, 255, 255);
+}
+
+/* placeholders for the table and the chart */
+QWidget#table_part {
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 1px;
+}
+
+/* table part content */
+QTableView#table_part {
+    background-color: rgb(255, 255, 255);
+    color: rgb(1, 47, 101);
+    gridline-color: rgb(200, 210, 220);
+    selection-background-color: rgb(159, 191, 236);
+    selection-color: white;
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 1px;
+}
+
+QTableView {
+    alternate-background-color: rgb(200, 210, 220);
+}
+
+QWidget#chart_part {
+    background-color: rgb(255, 255, 255);
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 1px;
+}
+
+/* visible, draggable splitter handle */
+QSplitter::handle:horizontal {
+    background-color: rgb(45, 81, 130);
+    width: 0px;
+    margin: 0;
+    border-radius: 0px;
+}
+QSplitter::handle:horizontal:hover {
+    background-color: rgb(81, 116, 165);
+}
+
+/* optional: toolbar and bottom bar backgrounds */
+QWidget#canvas_toolbar {
+    background-color: rgb(219, 228, 238);
+}
+
+QWidget#bottom_bar {
+    background-color: rgb(219, 228, 238);
+    border-top: 1px solid rgb(45, 81, 130);
+}
+
+/* optional: status bar styling */
+QStatusBar#status_bar {
+    background-color: rgb(219, 228, 238);
+    color: rgb(45, 45, 45);
+    border-top: 1px solid rgb(45, 81, 130);
+}
+
+/* bottom bar button layout */
+QPushButton {
+    background-color: rgb(178, 200, 223);
+    color: rgb(65, 101, 142);
+    border: 2px solid rgb(45, 81, 130);
+    border-radius: 5px;
+    padding: 5px 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(81, 116, 165);
+}
+
+QPushButton:pressed {
+    background-color: rgb(65, 101, 150);
+    padding: 8px 8px;
+}
+
+QMessageBox#pop_up {
+    background-color: rgb(219, 232, 247);
+    color: rgb(109, 167, 235);
+    border: 2px solid rgb(65, 101, 150);
+    border-radius: 4px;
+}
+
+QMessageBox#pop_up QLabel{
+    font-size: 18px;
+    color: rgb(1, 47, 101);
+    font-family: "Segoe UI";
+}
+
+/* tooltip in general */
+QToolTip {
+    background-color: rgb(219, 228, 238);
+    color: rgb(1, 47, 101);
+    border: 1px solid rgb(45, 81, 130);
+    border-radius: 2px;
+    padding: 4px 6px;
+    font-size: 12px;
+    font-family: "Segoe UI";
+}

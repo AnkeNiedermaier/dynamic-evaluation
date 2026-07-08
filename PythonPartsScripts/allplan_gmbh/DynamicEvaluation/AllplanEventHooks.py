@@ -65,8 +65,8 @@ def read_all_visible_objects(_doc: AllplanEleAdapter.DocumentAdapter):
                            , 141, 161, 162, 163, 164, 165, 166, 171, 180, 190
                            , 191, 334, 335, 345, 346, 347, 349, 538, 539, 600
                            , 683, 1317, 1318, 1319]
-    leftout_attrib_name_list = [AttributeService.GetAttributeName(_doc, attrib_number)
-                                for attrib_number in leftout_attrib_number_list]
+    leftout_object_name_set = {"Total", "Gesamt", "Path", "Pfad", "total", "gesamt", "path"
+                                , "pfad", "Group", "Gruppe", "group", "gruppe"}
     relevant_object_list = ["Volume3D_TypeUUID", "Cylinder3D_TypeUUID", "Sphere3D_TypeUUID"
                             , "BRep3D_Volume_TypeUUID", "BRep3D_Surface_TypeUUID", "BRep3D_Wire_TypeUUID"
                             , "SmartSymbol_TypeUUID", "OutdoorFacilitiesObject_TypeUUID", "DeliverySymbol_TypeUUID"
@@ -137,6 +137,19 @@ def read_all_visible_objects(_doc: AllplanEleAdapter.DocumentAdapter):
         if object_type not in relevant_object_list:
             continue
 
+        object_name_check = False
+
+        object_attrib = single_elem.GetAttributes(eAttibuteReadState.ReadAll)
+        for attrib_pair in object_attrib:
+            if attrib_pair [0] == 498:
+                attrib_naming = attrib_pair[1]
+                for leftout_name in leftout_object_name_set:
+                    if leftout_name in attrib_naming:
+                        object_name_check = True
+                        break
+
+        if object_name_check:
+            continue
 
         elem_attrib_dict = {(AttributeService.GetAttributeName(_doc, attrib_name)
                             ,attrib_value) for attrib_name, attrib_value

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   sodipodi:docname="CheckboxCross.svg"
+   inkscape:export-filename="CheckboxCross.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#cccccc"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="1"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="30.4375"
+     inkscape:cx="8"
+     inkscape:cy="8"
+     inkscape:window-width="1533"
+     inkscape:window-height="747"
+     inkscape:window-x="160"
+     inkscape:window-y="160"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="opacity:1;fill:#19375f;stroke:#19375f;stroke-width:0.3;stroke-linecap:butt;stroke-dasharray:none;fill-opacity:1;stroke-opacity:1;stroke-miterlimit:0"
+       d="M 0,4.2333333 4.2333333,0 v 0 0"
+       id="path1" />
+    <path
+       style="opacity:1;fill:#19375f;fill-opacity:1;stroke:#19375f;stroke-width:0.3;stroke-linecap:butt;stroke-miterlimit:0;stroke-dasharray:none;stroke-opacity:1"
+       d="m 0,0 4.2333333,4.2333333 v 0"
+       id="path2" />
+  </g>
+</svg>
