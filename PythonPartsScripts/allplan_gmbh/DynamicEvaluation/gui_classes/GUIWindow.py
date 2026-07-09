@@ -785,6 +785,16 @@ gui_styles_path = Path(__file__).parent / "gui_styles.qss"
 with open(gui_styles_path, "r", encoding="utf-8") as style_file:
     gui_style_sheet = style_file.read()
 
+icon_dir = (Path(__file__).parent / "icons").resolve().as_posix()
+gui_style_sheet = gui_style_sheet.replace(
+    "url(gui_classes/icons/arrow_down.png)",
+    f'url("{icon_dir}/arrow_down.png")'
+)
+gui_style_sheet = gui_style_sheet.replace(
+    "url(gui_classes/icons/checkbox_cross.png)",
+    f'url("{icon_dir}/checkbox_cross.png")'
+)
+
 eval_app = PyWidget.QApplication(sys.argv)
 eval_app.setStyle("Fusion")
 eval_app.setStyleSheet(gui_style_sheet)
