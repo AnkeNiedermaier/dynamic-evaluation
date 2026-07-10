@@ -29,15 +29,25 @@ from PathFunctions import PathFunctions
 from PySide6.QtCore import QFileSystemWatcher, Qt
 from PySide6.QtPrintSupport import QPrintDialog, QPrinter
 
-#list_file = "C:\\Daten\\Git\\standalone-interface\\Elements_dict.txt"
-#temp_file = "C:\\Daten\\Allplan\\Allplan 2026\\Std\\visible_elements_log.txt"
-temp_file = PathFunctions.read_start_file()
+    #----------------- read file with current lofile location
 
+temp_file = PathFunctions.read_start_file()
 
 
 class EvalWindow(PyWidget.QMainWindow):
 
-    #----------------- object creation method
+
+    """ Definition of class EvalWindow which is the main
+        GUI build with PySide6 for the dynamic evaluation
+        both in table and chart format and options and
+        buttons for user interaction
+        REMARKS: it will stay as independent APP as soon
+        as the PythonPart palette in Allplan is closed
+        Closing the app will also stop the event hook and
+        the logging process in Allplan
+    """
+
+
     def __init__(self
                  , window_width:    int
                  , window_height:   int
@@ -45,6 +55,19 @@ class EvalWindow(PyWidget.QMainWindow):
                  , row_content:     list
                  , header_naming:   list
                  , param_dict_list: list[dict]):
+
+        """ Class for the GUI of the dynamic evaluation
+
+        Args:
+            window_width: width of the GUI window
+            window_height: height of the GUI window
+            window_title: name of the App window
+            row_content: list of lists with table row content
+            header_naming: list of the table header names
+            param_dict_list: list of dictionaries with attribute/value pairs
+            of each relevant Allplan element
+        """
+
         super().__init__()
         self.setWindowTitle(window_title)
         self.resize(window_width, window_height)
@@ -53,13 +76,14 @@ class EvalWindow(PyWidget.QMainWindow):
         self.param_dict_list = param_dict_list
         self.current_eval_file = str(temp_file)
 
+        #----------------- watch logfile for automated update
+
         self.eval_file_watcher = QFileSystemWatcher(self)
         self.eval_file_watcher.addPath(self.current_eval_file)
         self.eval_file_watcher.fileChanged.connect(self.eval_file_updated)
 
-
-
         #----------------- menu bar and custom title bar
+        #----------------- main menu bar layout and content
 
         main_menu = self.menuBar()
         main_menu.setObjectName("main_menu")
@@ -67,6 +91,8 @@ class EvalWindow(PyWidget.QMainWindow):
         file_menu = main_menu.addMenu("File")
         export_menu = main_menu.addMenu("Export")
         diagram_menu = main_menu.addMenu("Diagram")
+
+        #----------------- file menu content open
 
         self.open_file = widget_classes.MenuAction(self, "&Open File", "Open new eval file")
 
@@ -76,16 +102,23 @@ class EvalWindow(PyWidget.QMainWindow):
 
         self.open_file.triggered.connect(lambda: self.show_tooltip_message(self.open_file))
 
+        #----------------- file menu content print
+
         self.print_content = widget_classes.MenuAction(self, "&Print content", "Print the content")
         file_menu.addAction(self.print_content)
         self.print_content.hovered.connect(lambda: self.show_tooltip_message(self.print_content))
         self.print_content.triggered.connect(lambda: self.show_tooltip_message(self.print_content))
         self.print_content.triggered.connect(self.handle_print_dialog)
 
+        #----------------- export menu content diagram
+
         self.export_diagram = widget_classes.MenuAction(self, "&Export Diagram"
                                                         , "Export diagram as image")
         export_menu.addAction(self.export_diagram)
         self.export_diagram.hovered.connect(lambda: self.show_tooltip_message(self.export_diagram))
+
+        #----------------- export menu content table
+
         self.export_diagram.triggered.connect(
             lambda: self.show_tooltip_message(self.export_diagram))
         self.export_diagram.triggered.connect(lambda: self.handle_file_dialog("save_diagram"))
@@ -95,6 +128,9 @@ class EvalWindow(PyWidget.QMainWindow):
         self.export_table.hovered.connect(lambda: self.show_tooltip_message(self.export_table))
         self.export_table.triggered.connect(lambda: self.show_tooltip_message(self.export_table))
         self.export_table.triggered.connect(lambda: self.handle_file_dialog("save_table"))
+
+        #----------------- diagram menu content gradient
+
         self.isometric_view = widget_classes.MenuAction(self
                                                         , "&Show gradient"
                                                         , "Show diagram with gradient", True)
@@ -103,12 +139,17 @@ class EvalWindow(PyWidget.QMainWindow):
             lambda: self.show_tooltip_message(self.isometric_view))
         self.isometric_view.hovered.connect(lambda: self.show_tooltip_message(self.isometric_view))
         diagram_menu.addAction(self.isometric_view)
+
+        #----------------- diagram menu content legend
+
         self.draw_legend = widget_classes.MenuAction(self
                                                     , "&Show legend", "Show legend", True)
         self.draw_legend.toggled.connect(self.update_diagram_content)
         self.draw_legend.triggered.connect(lambda: self.show_tooltip_message(self.draw_legend))
         self.draw_legend.hovered.connect(lambda: self.show_tooltip_message(self.draw_legend))
         diagram_menu.addAction(self.draw_legend)
+
+        #----------------- diagram menu content grid
 
         self.show_grid = widget_classes.MenuAction(self
                                                     , "&Show grid lines"
@@ -117,6 +158,8 @@ class EvalWindow(PyWidget.QMainWindow):
         self.show_grid.triggered.connect(lambda: self.show_tooltip_message(self.show_grid))
         self.show_grid.hovered.connect(lambda: self.show_tooltip_message(self.show_grid))
         diagram_menu.addAction(self.show_grid)
+
+        #----------------- diagram menu content labels
 
         self.show_labels = widget_classes.MenuAction(self
                                                     , "&Show labels", "Show labels", True)
@@ -271,9 +314,19 @@ class EvalWindow(PyWidget.QMainWindow):
 
         self.update_diagram_content()
 
+    #----------------- methods for content handling and update
     #----------------- object update method for table
 
     def update_table_content(self):
+
+        """ method to update the whole app content in creating a
+            new table model from the current logfile content both
+            when starting the app and the logfile has changed and
+            also if the user changes settings in the toolbar
+            also triggers the diagramm update method
+
+        """
+
         new_key_attrib = self.key_prop.currentText().strip()
         new_quantity_attrib = self.quantity_prop.currentText().strip()
         new_diagram_type = self.diagram_type.currentText().strip()
@@ -299,6 +352,11 @@ class EvalWindow(PyWidget.QMainWindow):
 
     def update_diagram_content(self):
 
+        """ method to update the diagramm content which is based
+            on th etable content and only reads the values from there
+            will be triggered with the update_table_content method
+
+        """
     #----------------- read table_part data
 
         key_prop_label = self.header_naming[0]
@@ -481,6 +539,7 @@ class EvalWindow(PyWidget.QMainWindow):
             single_slice.hovered.connect(lambda hovered
                                          , slice = single_slice: self.handle_slice_hovering(hovered, slice))
 
+    #----------------- add diagram labeling and legend
 
         pie_chart_object = PyCharts.QChart()
         pie_chart_object.addSeries(pie_chart_part)
@@ -505,6 +564,15 @@ class EvalWindow(PyWidget.QMainWindow):
 
     def eval_file_updated(self
                           , eval_file_path: str | Path):
+
+        """ method to inspect the current used logfile for changes
+            and updates
+
+        Args:
+            eval_file_path: path to the current logfile
+
+        """
+
         changed_file = str(Path(eval_file_path))
         self.param_dict_list = table_models.read_param_file(changed_file)
         self.update_table_content()
@@ -516,6 +584,12 @@ class EvalWindow(PyWidget.QMainWindow):
     def show_tooltip_message(self
                              , menu_action: widget_classes.MenuAction):
 
+        """ method to show the tooltip of the menu action in the status bar
+
+        Args:
+            menu_action: the menu action for the tooltip
+        """
+
         self.statusBar().showMessage(menu_action.toolTip(), 5000)
 
 
@@ -523,6 +597,13 @@ class EvalWindow(PyWidget.QMainWindow):
 
     def closeEvent(self
                    , event):
+
+        """ method to handle the window close event
+
+        Args:
+            event: the close event
+        """
+
         PathFunctions.delete_folder()
         event.accept()
 
@@ -533,8 +614,12 @@ class EvalWindow(PyWidget.QMainWindow):
                            , action_kind: Literal["open_new"
                                           , "save_table", "save_diagram"] = "open_new"):
 
+        """ combined method for different actions of the menu bar
+        Args:
+            action_kind: the kind of action to handle
 
-
+        """
+    #----------------- action open new file
         if action_kind == "open_new":
             new_eval_file = connect_methods.menu_action_dialog(action_kind = action_kind)
             if new_eval_file:
@@ -546,6 +631,8 @@ class EvalWindow(PyWidget.QMainWindow):
 
                 self.param_dict_list = table_models.read_param_file(new_eval_file)
                 self.update_table_content()
+
+    #----------------- action save table as xlsx file
         elif action_kind == "save_table":
             save_excel_file = connect_methods.menu_action_dialog(action_kind=action_kind)
             if save_excel_file:
@@ -608,6 +695,7 @@ class EvalWindow(PyWidget.QMainWindow):
 
                 excel_file.save(save_excel_file)
 
+    #----------------- action save diagram as image
         elif action_kind == "save_diagram":
             save_diagram_file = connect_methods.menu_action_dialog(action_kind = action_kind)
             if save_diagram_file:
@@ -622,6 +710,12 @@ class EvalWindow(PyWidget.QMainWindow):
     #----------------- method to handle the printing dialog
 
     def handle_print_dialog(self):
+
+        """ general method to handle the printing action
+            as it is very complicated the whole process was
+            split into different methods for the single steps
+
+        """
 
         print_engine = QPrinter(QPrinter.HighResolution)
         printing_dialog = QPrintDialog(print_engine, self)
@@ -650,6 +744,17 @@ class EvalWindow(PyWidget.QMainWindow):
                         , print_engine: QPrinter
                         , print_painter: PyGui.QPainter
                         , print_image: PyGui.QPixmap):
+
+        """ partly method for the diagramm printing in using
+            Pixmap
+
+        Args:
+            print_engine: the printer as such
+            print_painter: the QT internal painter to use for printing
+            print_image: the QT pixmap widget
+
+        """
+
         printing_area = print_engine.pageRect(QPrinter.DevicePixel)
         content_margin = 20
         content_area = printing_area.adjusted(content_margin, content_margin
@@ -669,6 +774,13 @@ class EvalWindow(PyWidget.QMainWindow):
     #----------------- method to draw the table part as image
 
     def paint_table_image(self) -> PyGui.QPixmap:
+
+
+        """ partly method for the table printing in using Pixmap
+        Returns:
+            PyGui.QPixmap: the rendered table as a pixmap
+
+        """
 
         table_model = self.table_part.model()
         row_count = table_model.rowCount()
@@ -736,6 +848,16 @@ class EvalWindow(PyWidget.QMainWindow):
                             , is_hovered: bool
                             , bar_index: int
                             , hovered_bar: PyCharts.QBarSet) -> None:
+
+        """ method to handle the mouse hovering if the diagram type
+            is a bar or column
+
+        Args:
+            is_hovered: if the mouse is hovering over the bar
+            bar_index: the index of the hovered bar
+            hovered_bar: the bar set of the hovered bar
+
+        """
         if not is_hovered or bar_index < 0:
             PyWidget.QToolTip.hideText()
             return
@@ -753,6 +875,15 @@ class EvalWindow(PyWidget.QMainWindow):
     def handle_slice_hovering(self
                             , is_hovered: bool
                             , pie_slice: PyCharts.QPieSlice) -> None:
+
+        """ method to handle the mouse hovering if the diagram type
+            is a pie or ring
+
+        Args:
+            is_hovered: if the mouse is hovering over the slice
+            pie_slice: the pie slice that is being hovered over
+        """
+
         if is_hovered:
             slice_label = pie_slice.label().split("\n")[0]
             slice_value = pie_slice.value()
@@ -767,6 +898,17 @@ class EvalWindow(PyWidget.QMainWindow):
     def style_hover_text(self
                          , lable_text:  str
                          , lable_value: float) -> str:
+
+        """ method to style the tooltip text of hoovering
+
+        Args:
+            lable_text: the text of the tooltip
+            lable_value: the content of the tooltip
+
+        Returns:
+            the styled tooltip text
+        """
+
         quantity_kind = self.quantity_prop.currentText()
         if quantity_kind == "Piece":
             value_string = f"{lable_value:,.0f}"
@@ -779,7 +921,7 @@ class EvalWindow(PyWidget.QMainWindow):
             "</div>"
         )
 
-
+    #----------------- FINAL: creation of the main window and start of the app
 
 gui_styles_path = Path(__file__).parent / "gui_styles.qss"
 with open(gui_styles_path, "r", encoding="utf-8") as style_file:

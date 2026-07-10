@@ -2,6 +2,7 @@
 <Element xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://pythonparts.allplan.com/2026/schemas/PythonPart.xsd">
     <Script>
         <Name>allplan_gmbh\DynamicEvaluation\DynamicEval.py</Name>
+        <TextId>1000</TextId>
         <Title>Dynamic Evaluation</Title>
         <Version>1.0</Version>
         <Interactor>False</Interactor>
@@ -9,7 +10,8 @@
     </Script>
     <Page>
         <Name>Page1</Name>
-        <Text>Einstellungen</Text>
+        <TextId>1001</TextId>
+        <Text>Settings</Text>
         <Parameters>
             <Parameter>
                 <Name>Image</Name>
@@ -17,23 +19,23 @@
                 <Orientation>Middle</Orientation>
                 <ValueType>Picture</ValueType>
             </Parameter>
-<!-- Attribute selection -->
+<!-- Path selection -->
             <Parameter>
                 <Name>Expander</Name>
-                <TextId>1001</TextId>
+                <TextId>1002</TextId>
                 <Text>Eval file path</Text>
                 <ValueType>Expander</ValueType>
                 <Value>False</Value>
                 <Parameters>
                     <Parameter>
                         <Name>Row1</Name>
-                        <TextId>1009</TextId>
+                        <TextId>1003</TextId>
                         <Text>Path selection</Text>
                         <ValueType>Row</ValueType>
                         <Parameters>
                             <Parameter>
                                 <Name>eval_file_path</Name>
-                                <TextId>1010</TextId>
+                                <TextId>1004</TextId>
                                 <Text>select</Text>
                                 <Value></Value>
                                 <ValueType>String</ValueType>
@@ -49,7 +51,7 @@
 <!-- Evaluation start -->
             <Parameter>
                 <Name>Expander</Name>
-                <TextId>1006</TextId>
+                <TextId>1005</TextId>
                 <Text>Evaluation</Text>
                 <ValueType>Expander</ValueType>
                 <Value>False</Value>
@@ -57,7 +59,7 @@
                     <Parameter>
                         <Name>Row109</Name>
                         <TextId>1006</TextId>
-                        <Text>Diagram</Text>
+                        <Text>Evaluation window</Text>
                         <ValueType>Row</ValueType>
                         <Parameters>
                             <Parameter>

@@ -1,4 +1,4 @@
-""" Script for Diagram Window
+""" Script for Dynamic Evaluation App
 """
 
 
@@ -8,15 +8,10 @@ import sys
 
 import BaseScriptObject as ScriptObject
 import NemAll_Python_AllplanSettings as AllplanSettings
-import NemAll_Python_IFW_ElementAdapter as AllplanElementAdapter
-import NemAll_Python_Utility as AllplanUtil
 
 from BuildingElement import BuildingElement
-from ControlPropertiesUtil import ControlPropertiesUtil
 from CreateElementResult import CreateElementResult
-from DocumentManager import DocumentManager
-from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractor, MultiElementSelectInteractorResult
-from StringTableService import StringTableService
+from ScriptObjectInteractors.MultiElementSelectInteractor import MultiElementSelectInteractorResult
 
 from . import AllplanEventHooks
 from .gui_classes.PathFunctions import PathFunctions
@@ -52,22 +47,31 @@ def create_script_object(build_ele         : BuildingElement,
     Returns:
         created script object
     """
-    diagram_creator = DiagramCreator(build_ele, script_object_data)
+    dynamic_evaluation = DynamicEvalApp(build_ele, script_object_data)
 
-    return diagram_creator
+    return dynamic_evaluation
 
-class DiagramCreator (ScriptObject.BaseScriptObject):
+class DynamicEvalApp (ScriptObject.BaseScriptObject):
 
-    """ Class for the starting of the dinamic evaluation
-
-        Args:
-            build_ele: the building element
-            script_object_data: tool package of the script object
+    """ Definition of class DynamicEvalApp with which it is
+        possible to start an external GUI window for the
+        dynamic evaluation of all date currently visible in
+        the open drawing files in Allplan
     """
 
     def __init__(self
                  , build_ele:           BuildingElement
                  , script_object_data:  ScriptObject.BaseScriptObjectData):
+
+        """ Class for the starting of the dynamic evaluation
+            REMARK: currently not needed as ScriptObject but implemented
+            to maybe later also allow evaluation of selected elements
+
+        Args:
+            build_ele: the building element
+            script_object_data: tool package of the script object
+        """
+
         super().__init__(script_object_data)
         self.build_ele = build_ele
         self.ctrl_prop_util = script_object_data.control_props_util
@@ -75,13 +79,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
 
         self.selection_mode = ""
         self.calc_objects = MultiElementSelectInteractorResult()
-
-        self.excel_file_path = ""
-        self.name_list_y = []
-        self.value_list_x = []
-        self.name_value_dict = {}
-        self.selection_mode = ""
-
+        self.script_object_interactor = None
 
 
     def modify_element_property(self
@@ -117,7 +115,7 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         build_ele = self.build_ele
 
         local_str_table, _ = build_ele.get_string_tables()
-        attrib_assign_message = local_str_table.get_string("2001", "Show the Diagram!")
+        start_eval_message = local_str_table.get_string("2001", "Start the Dynamic Evaluation App")
 
 
         if event_id == 1000:
@@ -143,17 +141,24 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         else:
             print("unknown event id ", event_id)
 
+        del start_eval_message
+
         return True
 
 
     def start_next_input(self):
+
+        """ stops the script object interactor and
+            executes the script
+
+        """
 
         self.script_object_interactor = None
 
 
     def create_path_file(self) -> bool:
 
-        """ Function to save the selected folder path
+        """ method to save the selected folder path
             of the log file for the dynamic evaluation in a text file
             to access it in the event hooks for the logging process
 
@@ -178,4 +183,3 @@ class DiagramCreator (ScriptObject.BaseScriptObject):
         """
 
         return CreateElementResult()
-

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Element>
+    <StringTable>Allplan PythonParts string table</StringTable>
+<!-- for pyp file -->
+    <Item>
+        <TextId>1000</TextId>
+        <Text>Dynamic Evaluation</Text>
+    </Item>
+    <Item>
+        <TextId>1001</TextId>
+        <Text>Einstellungen</Text>
+    </Item>
+    <Item>
+        <TextId>1002</TextId>
+        <Text>Pfad Logfiles</Text>
+    </Item>
+    <Item>
+        <TextId>1003</TextId>
+        <Text>Pfad</Text>
+    </Item>
+    <Item>
+        <TextId>1004</TextId>
+        <Text>auswählen</Text>
+    </Item>
+    <Item>
+        <TextId>1005</TextId>
+        <Text>Evaluation</Text>
+    </Item>
+    <Item>
+        <TextId>1006</TextId>
+        <Text>Evaluation</Text>
+    </Item>
+    <Item>
+        <TextId>1007</TextId>
+        <Text>starten</Text>
+    </Item>
+<!-- for py file -->
+    <Item>
+        <TextId>2001</TextId>
+        <Text>Dynamic Evaluation App starten</Text>
+    </Item>
+</Element>

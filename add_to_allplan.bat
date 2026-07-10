@@ -6,7 +6,7 @@ set /p targetPath="Please enter the Path to Usr or Std (with trailing \): "
 
 REM Remove existing links if they exist
 
-REM pyp and svg files in library
+REM pyp,  localization and svg files in library
 
 if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" (
     del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp"
@@ -14,6 +14,14 @@ if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" (
 
 if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg" (
     del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg"
+)
+
+if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_eng.xml" (
+    del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_eng.xml"
+)
+
+if exist "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_deu.xml" (
+    del "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_deu.xml"
 )
 
 REM py files in PythonPartsScripts
@@ -148,6 +156,8 @@ REM files in library
 
 mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.svg"
 mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp"
+mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_eng.xml" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_eng.xml"
+mklink "%targetPath%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_deu.xml" "%scriptDir%Library\Allplan GmbH\DynamicEvaluation\DynamicEval_deu.xml"
 
 REM files for the PythonPart
 

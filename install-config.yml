@@ -1,0 +1,27 @@
+plugin:
+  name: Dynamic Evaluation
+  UUID: ee2dbee0-2560-4ec8-8090-ac750d6ecc9e
+  version: 1.0.0
+  developer: allplan-gmbh
+  default-language: eng
+  min-allplan-version: 2027
+
+installation:
+  target-location: STD
+
+tools:
+  - id: DynamicEval
+    pyp: Library\Allplan GmbH\DynamicEvaluation\DynamicEval.pyp
+    display-name:
+      en: Dynamic Evaluation
+      de: Dynamic Evaluation
+    icons:
+      small: PythonPartsActionbar\allplan_gmbh\DynamicEvaluation\DynamicEval_24.png
+      large: PythonPartsActionbar\allplan_gmbh\DynamicEvaluation\DynamicEval_128.png
+
+task-area:
+  display-name:
+    en: Dynamic Evaluation
+    de: Dynamic Evaluation
+  layout:
+    - DynamicEval

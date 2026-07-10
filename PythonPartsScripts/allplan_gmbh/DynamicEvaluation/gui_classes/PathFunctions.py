@@ -108,4 +108,3 @@ class PathFunctions:
                 return False
 
         return False
-

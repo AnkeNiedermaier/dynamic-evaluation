@@ -1,10 +1,8 @@
-""" implementation of the hooks for the Allplan events to log elements modifications
+""" implementation of the hooks for the Allplan events to log all elements
+    in the current loaded drawing files to a log file
 """
 
-import datetime
-import os
 
-from getpass import getuser
 from pathlib import Path
 from typing import Any
 
@@ -53,7 +51,7 @@ def execute_event(event_id: int,
 
 def read_all_visible_objects(_doc: AllplanEleAdapter.DocumentAdapter):
 
-    """ Reads all visible elementsin the current loaded drawing files
+    """ Reads all visible elements in the current loaded drawing files
         filters them by the layer status and their type to eliminate
         usless objects and wirtes their attributes as dict with attribute
         and value to a log file that is the basis for dynamic evaluation
@@ -255,8 +253,8 @@ def delete_folder() -> bool:
         try:
             folder_path.rmdir()
             return True
+    # if folder is not empty
         except OSError:
-            # The folder is not empty, so we cannot delete it
             return False
 
     return False
