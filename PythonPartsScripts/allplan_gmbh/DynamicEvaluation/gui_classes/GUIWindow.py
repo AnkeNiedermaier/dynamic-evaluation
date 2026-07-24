@@ -214,7 +214,7 @@ class EvalWindow(PyWidget.QMainWindow):
 
         #----------------- bottom bar buttons and components
 
-        update_button = widget_classes.PushButton(120, 30, "Update!")
+        update_button = widget_classes.PushButton(120, 30, "Refresh colors!")
         close_button = widget_classes.PushButton(80, 30, "Close")
         update_button.clicked.connect(self.update_table_content)
         close_button.clicked.connect(self.close)

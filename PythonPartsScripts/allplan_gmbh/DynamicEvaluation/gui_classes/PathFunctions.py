@@ -6,15 +6,14 @@ from __future__ import annotations
 
 from pathlib import Path
 
-#----------------- GENERAL FUNCTIONS
-#----------------- function to build the folder
-
-#----------------- function to get the DynamicEvaluation folder path
 
 class PathFunctions:
     """Class containing functions to manage the DynamicEvaluation folder and its files."""
 
+#----------------- GENERAL FUNCTIONS
+#----------------- function to build the folder
 
+#----------------- function to create the DynamicEvaluation folder path
 
     @staticmethod
     def get_folder_path() -> Path:
@@ -108,3 +107,41 @@ class PathFunctions:
                 return False
 
         return False
+
+#----------------- functions concerning the logfile path for the evaluation
+
+#----------------- function to create the logfile folder
+
+    @staticmethod
+    def create_logfile_folder(allplan_user_path: str | Path) -> Path:
+        """Create a subfolder in the already existing tmp folder
+            of the Allplan user folder to store the logfiles for
+            the dynamic evaluation
+        Args:
+            allplan_user_path: path to the Allplan user folder
+        Returns:
+            Path: path to the created logfile folder
+        """
+        folder_path = Path(allplan_user_path) / "tmp" / "DynamicEvaluation"
+        folder_path.mkdir(parents=True, exist_ok=True)
+
+        return folder_path
+
+#----------------- function to get the logfile path
+
+    @staticmethod
+    def create_logfile_path(allplan_user_path:  str | Path
+                            , logfile_name:     str = "dynamic_evaluation_log.txt") -> Path:
+        """Create and return the real logfile path
+            inside the Allplan user tmp folder
+        Args:
+            allplan_user_path: path to the Allplan user folder
+            logfile_name: name of the logfile
+
+        Returns:
+            Path: path of the logfile to be created
+
+        """
+        logfile_path = PathFunctions.create_logfile_folder(allplan_user_path) / logfile_name
+
+        return logfile_path
