@@ -92,15 +92,21 @@ class EvalWindow(PyWidget.QMainWindow):
         export_menu = main_menu.addMenu("Export")
         diagram_menu = main_menu.addMenu("Diagram")
 
-        #----------------- file menu content open
+        #----------------- file menu content snapshots
 
-        self.open_file = widget_classes.MenuAction(self, "&Open File", "Open new eval file")
+        self.open_snapshot = widget_classes.MenuAction(self, "&Open Snapshot File", "Open saved snapshot file")
+        self.save_snapshot = widget_classes.MenuAction(self, "&Save as Snapshot", "Save snapshot of current content")
 
-        file_menu.addAction(self.open_file)
-        self.open_file.hovered.connect(lambda: self.show_tooltip_message(self.open_file))
-        self.open_file.triggered.connect(lambda: self.handle_file_dialog("open_new"))
+        file_menu.addAction(self.open_snapshot)
+        self.open_snapshot.hovered.connect(lambda: self.show_tooltip_message(self.open_snapshot))
+        self.open_snapshot.triggered.connect(lambda: self.handle_file_dialog("open_snapshot"))
 
-        self.open_file.triggered.connect(lambda: self.show_tooltip_message(self.open_file))
+        self.open_snapshot.triggered.connect(lambda: self.show_tooltip_message(self.open_snapshot))
+
+        file_menu.addAction(self.save_snapshot)
+        self.save_snapshot.hovered.connect(lambda: self.show_tooltip_message(self.save_snapshot))
+        self.save_snapshot.triggered.connect(lambda: self.handle_file_dialog("save_snapshot"))
+        self.save_snapshot.triggered.connect(lambda: self.show_tooltip_message(self.save_snapshot))
 
         #----------------- file menu content print
 
@@ -214,11 +220,11 @@ class EvalWindow(PyWidget.QMainWindow):
 
         #----------------- bottom bar buttons and components
 
-        update_button = widget_classes.PushButton(120, 30, "Refresh colors!")
+        update_button = widget_classes.PushButton(120, 30, "Restart dynamic evaluation!")
         close_button = widget_classes.PushButton(80, 30, "Close")
         update_button.clicked.connect(self.update_table_content)
         close_button.clicked.connect(self.close)
-        close_button.clicked.connect(lambda: PathFunctions.delete_folder())
+        #close_button.clicked.connect(lambda: PathFunctions.delete_folder())
 
 
         #----------------- toolbar layout
@@ -605,32 +611,50 @@ class EvalWindow(PyWidget.QMainWindow):
         """
 
         PathFunctions.delete_folder()
+        PathFunctions.delete_logfile(self.current_eval_file)
         event.accept()
 
 
     #----------------- method to handle the file and export dialogs
 
     def handle_file_dialog(self
-                           , action_kind: Literal["open_new"
-                                          , "save_table", "save_diagram"] = "open_new"):
+                           , action_kind: Literal["open_snapshot"
+                                                  , "save_snapshot"
+                                                  , "save_table"
+                                                  , "save_diagram"] = "open_snapshot"):
 
         """ combined method for different actions of the menu bar
         Args:
             action_kind: the kind of action to handle
 
         """
-    #----------------- action open new file
-        if action_kind == "open_new":
-            new_eval_file = connect_methods.menu_action_dialog(action_kind = action_kind)
-            if new_eval_file:
-                PathFunctions.save_start_file(new_eval_file)
+    #----------------- action open snapshot file
+        if action_kind == "open_snapshot":
+            snapshot_file = connect_methods.menu_action_dialog(action_kind = action_kind)
+            if snapshot_file:
+                PathFunctions.save_start_file(snapshot_file)
                 if self.current_eval_file in self.eval_file_watcher.files():
                     self.eval_file_watcher.removePath(self.current_eval_file)
-                self.current_eval_file = new_eval_file
+                self.current_eval_file = snapshot_file
                 self.eval_file_watcher.addPath(self.current_eval_file)
 
-                self.param_dict_list = table_models.read_param_file(new_eval_file)
+                self.param_dict_list = table_models.read_param_file(snapshot_file)
                 self.update_table_content()
+
+    #----------------- action save snapshot file
+        elif action_kind == "save_snapshot":
+            snapshot_file = connect_methods.menu_action_dialog(action_kind = action_kind)
+            if snapshot_file:
+                with open(self.current_eval_file, "r", encoding="utf-8") as source_file:
+                    logfile_line_list = source_file.readlines()
+
+                source_file.close()
+
+                with open(snapshot_file, "w", encoding="utf-8") as snapshot_log_file:
+                    snapshot_log_file.writelines(logfile_line_list)
+
+                self.statusBar().showMessage(f"Snapshot saved to {snapshot_file}", 5000)
+                snapshot_log_file.close()
 
     #----------------- action save table as xlsx file
         elif action_kind == "save_table":

@@ -169,7 +169,6 @@ class DynamicEvalApp (ScriptObject.BaseScriptObject):
 
         logfile_path = PathFunctions.create_logfile_path(user_folder)
 
-        # logfile_path = self.build_ele.eval_file_path.value
 
         PathFunctions.save_start_file(logfile_path)
         AllplanEventHooks.read_all_visible_objects(self.doc)

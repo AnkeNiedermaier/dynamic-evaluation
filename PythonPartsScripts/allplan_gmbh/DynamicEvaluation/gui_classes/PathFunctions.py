@@ -145,3 +145,31 @@ class PathFunctions:
         logfile_path = PathFunctions.create_logfile_folder(allplan_user_path) / logfile_name
 
         return logfile_path
+
+
+        #----------------- function to delete the logfile folder and its content
+
+    @staticmethod
+    def delete_logfile(logfile_path: str | Path) -> bool:
+        """Delete the logfile folder in the Allplan user directory and its content
+
+        Args:
+            logfile_path: The path to the logfile to be deleted
+
+        Returns:
+            bool: True if the folder was deleted, False otherwise
+        """
+        logfile_path = Path(logfile_path)
+        if logfile_path.is_file():
+            logfile_path.unlink()
+
+        folder_path = logfile_path.parent
+        if folder_path.exists() and folder_path.is_dir():
+            try:
+                folder_path.rmdir()
+                return True
+            except OSError:
+                # The folder is not empty, so we cannot delete it
+                return False
+
+        return False

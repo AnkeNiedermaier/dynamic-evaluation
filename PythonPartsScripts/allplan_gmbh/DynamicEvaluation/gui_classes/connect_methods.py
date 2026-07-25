@@ -32,8 +32,10 @@ def show_message():
 #----------------- function to open a dialog window
 
 def menu_action_dialog(parent_app: PyWidget.QWidget | None = None
-                     , action_kind: Literal["open_new"
-                                          , "save_table", "save_diagram"] = "open_new") -> str | None:
+                     , action_kind: Literal["open_snapshot"
+                                            , "save_snapshot"
+                                            , "save_table"
+                                            , "save_diagram"] = "open_snapshot") -> str | None:
     """ function to open a dialog window
 
     Args:
@@ -46,13 +48,18 @@ def menu_action_dialog(parent_app: PyWidget.QWidget | None = None
 
 
     file_dialog = PyWidget.QFileDialog()
-    if action_kind == "open_new":
+    if action_kind == "open_snapshot":
         file_dialog.setFileMode(PyWidget.QFileDialog.FileMode.ExistingFile)
-        file_dialog.setWindowTitle("Open evaluation file")
+        file_dialog.setWindowTitle("Open snapshot file")
         file_dialog.setNameFilter("Text files (*.txt)")
     else:
         file_dialog.setAcceptMode(PyWidget.QFileDialog.AcceptMode.AcceptSave)
-        if action_kind == "save_table":
+        if action_kind == "save_snapshot":
+            file_dialog.setWindowTitle("Save snapshot file")
+            file_dialog.setNameFilter("Text files (*.txt)")
+            file_dialog.setDefaultSuffix("txt")
+
+        elif action_kind == "save_table":
             file_dialog.setWindowTitle("Export table as Excel file")
             file_dialog.setNameFilter("Excel files (*.xlsx)")
         else:

@@ -19,35 +19,7 @@
                 <Orientation>Middle</Orientation>
                 <ValueType>Picture</ValueType>
             </Parameter>
-<!-- Path selection -->
-            <Parameter>
-                <Name>Expander</Name>
-                <TextId>1002</TextId>
-                <Text>Eval file path</Text>
-                <ValueType>Expander</ValueType>
-                <Value>False</Value>
-                <Parameters>
-                    <Parameter>
-                        <Name>Row1</Name>
-                        <TextId>1003</TextId>
-                        <Text>Path selection</Text>
-                        <ValueType>Row</ValueType>
-                        <Parameters>
-                            <Parameter>
-                                <Name>eval_file_path</Name>
-                                <TextId>1004</TextId>
-                                <Text>select</Text>
-                                <Value></Value>
-                                <ValueType>String</ValueType>
-                                <ValueDialog>SaveFileDialog</ValueDialog>
-                                <FileFilter>Text file(*.txt)|*.txt|</FileFilter>
-                                <FileExtension>txt</FileExtension>
-                                <DefaultDirectories>std|prj</DefaultDirectories>
-                            </Parameter>
-                        </Parameters>
-                    </Parameter>
-                </Parameters>
-            </Parameter>
+
 <!-- Evaluation start -->
             <Parameter>
                 <Name>Expander</Name>
