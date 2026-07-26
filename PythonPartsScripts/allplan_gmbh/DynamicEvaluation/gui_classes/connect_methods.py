@@ -62,6 +62,7 @@ def menu_action_dialog(parent_app: PyWidget.QWidget | None = None
         elif action_kind == "save_table":
             file_dialog.setWindowTitle("Export table as Excel file")
             file_dialog.setNameFilter("Excel files (*.xlsx)")
+            file_dialog.setDefaultSuffix("xlsx")
         else:
             file_dialog.setWindowTitle("Export diagram as image")
             file_dialog.setNameFilter("PNG files (*.png);;JPEG files (*.jpg);;All files (*.*)")

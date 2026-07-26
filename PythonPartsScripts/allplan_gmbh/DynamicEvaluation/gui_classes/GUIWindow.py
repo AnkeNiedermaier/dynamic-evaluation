@@ -29,7 +29,7 @@ from PathFunctions import PathFunctions
 from PySide6.QtCore import QFileSystemWatcher, Qt
 from PySide6.QtPrintSupport import QPrintDialog, QPrinter
 
-    #----------------- read file with current lofile location
+    #----------------- read file with current logfile location
 
 temp_file = PathFunctions.read_start_file()
 
@@ -44,7 +44,8 @@ class EvalWindow(PyWidget.QMainWindow):
         REMARKS: it will stay as independent APP as soon
         as the PythonPart palette in Allplan is closed
         Closing the app will also stop the event hook and
-        the logging process in Allplan
+        the logging process in Allplan and delete all related
+        files and folders
     """
 
 
@@ -74,12 +75,15 @@ class EvalWindow(PyWidget.QMainWindow):
         self.row_content = row_content
         self.header_naming = header_naming
         self.param_dict_list = param_dict_list
-        self.current_eval_file = str(temp_file)
+        self.dynamic_eval_file = str(temp_file)
+        self.static_eval_file = ""
+        self.dynamic_update = True
+
 
         #----------------- watch logfile for automated update
 
         self.eval_file_watcher = QFileSystemWatcher(self)
-        self.eval_file_watcher.addPath(self.current_eval_file)
+        self.eval_file_watcher.addPath(self.dynamic_eval_file)
         self.eval_file_watcher.fileChanged.connect(self.eval_file_updated)
 
         #----------------- menu bar and custom title bar
@@ -220,11 +224,14 @@ class EvalWindow(PyWidget.QMainWindow):
 
         #----------------- bottom bar buttons and components
 
-        update_button = widget_classes.PushButton(120, 30, "Restart dynamic evaluation!")
+        self.dynamic_restart_button = widget_classes.PushButton(190, 30, "Restart dynamic evaluation!")
+        self.dynamic_restart_button.setObjectName("dynamic_restart_button")
+        self.check_update_mode()
+
         close_button = widget_classes.PushButton(80, 30, "Close")
-        update_button.clicked.connect(self.update_table_content)
+        self.dynamic_restart_button.clicked.connect(self.restart_dynamic_eval)
         close_button.clicked.connect(self.close)
-        #close_button.clicked.connect(lambda: PathFunctions.delete_folder())
+
 
 
         #----------------- toolbar layout
@@ -282,7 +289,7 @@ class EvalWindow(PyWidget.QMainWindow):
         bottom_bar_layout.setContentsMargins(8, 4, 8, 4)
         bottom_bar_layout.setSpacing(6)
         bottom_bar_layout.addStretch(1)
-        bottom_bar_layout.addWidget(update_button)
+        bottom_bar_layout.addWidget(self.dynamic_restart_button)
         bottom_bar_layout.addWidget(close_button)
 
         bottom_bar.setLayout(bottom_bar_layout)
@@ -321,6 +328,40 @@ class EvalWindow(PyWidget.QMainWindow):
         self.update_diagram_content()
 
     #----------------- methods for content handling and update
+    #----------------- dynamic update check method
+
+    def check_update_mode(self) -> bool:
+        """ method to check if the dynamic update mode is active
+            or if a static snapshot file is used to set the enable
+            state of the dynamic update button
+
+        Returns:
+            True if dynamic update mode is active, False otherwise
+        """
+        if self.dynamic_update:
+            self.dynamic_restart_button.setEnabled(False)
+        else:
+            self.dynamic_restart_button.setEnabled(True)
+
+        return self.dynamic_update
+
+    #----------------- dynamic update restart method
+
+    def restart_dynamic_eval(self):
+        """ method to restart the dynamic evaluation mode as connect action
+            when pressing the related restart_dynamic_eval button
+            it switches back to the dynamic eval logfile in the Allplan usr
+            folder and also reactivates the file watcher
+        """
+        self.dynamic_update = True
+
+        self.static_eval_file = ""
+        self.param_dict_list = table_models.read_param_file(self.dynamic_eval_file)
+        self.update_table_content()
+        self.check_update_mode()
+        self.statusBar().showMessage("Dynamic evaluation restarted", 5000)
+
+
     #----------------- object update method for table
 
     def update_table_content(self):
@@ -578,8 +619,12 @@ class EvalWindow(PyWidget.QMainWindow):
             eval_file_path: path to the current logfile
 
         """
-
+        if not self.dynamic_update:
+            return
         changed_file = str(Path(eval_file_path))
+        if changed_file != self.dynamic_eval_file:
+            return
+
         self.param_dict_list = table_models.read_param_file(changed_file)
         self.update_table_content()
         if changed_file not in self.eval_file_watcher.files():
@@ -611,7 +656,7 @@ class EvalWindow(PyWidget.QMainWindow):
         """
 
         PathFunctions.delete_folder()
-        PathFunctions.delete_logfile(self.current_eval_file)
+        PathFunctions.delete_logfile(self.dynamic_eval_file)
         event.accept()
 
 
@@ -632,20 +677,25 @@ class EvalWindow(PyWidget.QMainWindow):
         if action_kind == "open_snapshot":
             snapshot_file = connect_methods.menu_action_dialog(action_kind = action_kind)
             if snapshot_file:
-                PathFunctions.save_start_file(snapshot_file)
-                if self.current_eval_file in self.eval_file_watcher.files():
-                    self.eval_file_watcher.removePath(self.current_eval_file)
-                self.current_eval_file = snapshot_file
-                self.eval_file_watcher.addPath(self.current_eval_file)
+
+                self.static_eval_file = snapshot_file
+                self.dynamic_update = False
+                self.check_update_mode()
+
 
                 self.param_dict_list = table_models.read_param_file(snapshot_file)
                 self.update_table_content()
+                self.statusBar().showMessage(f"Snapshot file {snapshot_file} opened", 5000)
 
     #----------------- action save snapshot file
         elif action_kind == "save_snapshot":
             snapshot_file = connect_methods.menu_action_dialog(action_kind = action_kind)
             if snapshot_file:
-                with open(self.current_eval_file, "r", encoding="utf-8") as source_file:
+                if self.dynamic_update:
+                    logfile_to_save = self.dynamic_eval_file
+                else:
+                    logfile_to_save = self.static_eval_file
+                with open(logfile_to_save, "r", encoding="utf-8") as source_file:
                     logfile_line_list = source_file.readlines()
 
                 source_file.close()

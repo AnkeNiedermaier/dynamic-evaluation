@@ -236,6 +236,12 @@ QPushButton:pressed {
     padding: 8px 8px;
 }
 
+QPushButton#dynamic_restart_button:disabled {
+    background-color: rgb(210, 216, 224);
+    color: rgb(130, 140, 152);
+    border: 2px solid rgb(170, 180, 192);
+}
+
 QMessageBox#pop_up {
     background-color: rgb(219, 232, 247);
     color: rgb(109, 167, 235);
