@@ -224,7 +224,7 @@ class EvalWindow(PyWidget.QMainWindow):
 
         #----------------- bottom bar buttons and components
 
-        self.dynamic_restart_button = widget_classes.PushButton(190, 30, "Restart dynamic evaluation!")
+        self.dynamic_restart_button = widget_classes.PushButton(190, 30, "Restart dynamic update!")
         self.dynamic_restart_button.setObjectName("dynamic_restart_button")
         self.check_update_mode()
 
@@ -348,8 +348,8 @@ class EvalWindow(PyWidget.QMainWindow):
     #----------------- dynamic update restart method
 
     def restart_dynamic_eval(self):
-        """ method to restart the dynamic evaluation mode as connect action
-            when pressing the related restart_dynamic_eval button
+        """ method to restart the dynamic update mode as connect action
+            when pressing the related restart_dynamic_update button
             it switches back to the dynamic eval logfile in the Allplan usr
             folder and also reactivates the file watcher
         """
